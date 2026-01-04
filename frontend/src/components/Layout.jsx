@@ -7,8 +7,7 @@ const Layout = ({ children }) => {
     <>
       <Navbar />
       <main
-        className="min-h-screen"
-      >
+        className="min-h-screen">
         {children}
       </main>
       <Footer />

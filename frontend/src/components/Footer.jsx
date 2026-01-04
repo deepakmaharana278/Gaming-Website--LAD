@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#240750] text-white mt-16">
+    <footer className="bg-[#240750] text-white">
       <div className="max-w-7xl mx-auto px-5 py-10">
 
         {/* Top Section */}
