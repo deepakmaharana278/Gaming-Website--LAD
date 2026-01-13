@@ -13,6 +13,7 @@ CACHE = {
 
 FEED_URL = os.getenv("GAMEMONETIZE_FEED_URL")
 
+
 def gamemonetize_games(request):
     now = time.time()
 
