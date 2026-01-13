@@ -2,13 +2,16 @@ from django.http import JsonResponse
 import requests
 import feedparser
 import time
+import os
+
 
 CACHE = {
     "data": None,
     "time": 0
 }
 
-FEED_URL = "https://gamemonetize.com/feed.php?format=1&num=200&page=1"
+
+FEED_URL = os.getenv("GAMEMONETIZE_FEED_URL")
 
 def gamemonetize_games(request):
     now = time.time()

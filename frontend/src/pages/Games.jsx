@@ -6,7 +6,7 @@ export default function Games() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/games/")
+    fetch(`${import.meta.env.VITE_API_URL}/api/games/`)
       .then((res) => res.json())
       .then((data) => {
         setGames(data);
