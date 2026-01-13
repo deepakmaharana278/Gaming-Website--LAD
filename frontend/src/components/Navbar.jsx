@@ -97,7 +97,7 @@ const Navbar = () => {
 
               {/* Username + Profile Pic (RIGHTMOST) */}
               <div className="flex items-center gap-2 bg-[#344C64] px-3 py-1.5 rounded-full">
-                <span className="hidden sm:block text-xs font-medium truncate max-w-[120px]">
+                <span className="hidden sm:block text-xs font-medium truncate max-w-30">
                   {user.displayName || "Player"}
                 </span>
                 <img

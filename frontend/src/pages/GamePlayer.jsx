@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Layout from "../components/Layout";
 
 export default function GamePlayer() {
   const { id } = useParams();
@@ -14,6 +15,7 @@ export default function GamePlayer() {
   if (!game) return <h2 className="text-white p-6">Loading...</h2>;
 
   return (
+    <Layout>
     <div className="p-6">
       <h1 className="text-2xl font-bold text-white mb-3">{game.title}</h1>
 
@@ -28,6 +30,7 @@ export default function GamePlayer() {
       </div>
 
       <p className="text-gray-300 mt-4">{game.description}</p>
-    </div>
+      </div>
+      </Layout>
   );
 }
