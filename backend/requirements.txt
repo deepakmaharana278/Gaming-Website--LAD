@@ -7,8 +7,10 @@ django-cors-headers==4.9.0
 django-rest-framework==0.1.0
 djangorestframework==3.16.1
 feedparser==6.0.12
+gunicorn==23.0.0
 idna==3.11
 lxml==6.0.2
+packaging==25.0
 python-dotenv==1.2.1
 requests==2.32.5
 sgmllib3k==1.0.0
