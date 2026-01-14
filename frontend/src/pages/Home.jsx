@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import HomeSlider from "./HomeSlider";
+import { useNavigate } from "react-router-dom";
 
 const quotes = [
   "Play more. Stress less. 🎮",
@@ -13,6 +14,7 @@ const quotes = [
 
 const Home = () => {
   const [dailyQuote, setDailyQuote] = useState("");
+  const navigate = useNavigate()
 
   useEffect(() => {
     const today = new Date().toDateString();
@@ -45,7 +47,7 @@ const Home = () => {
 
         <p className="mt-4 text-sm sm:text-base text-gray-400 max-w-2xl mx-auto">Play free online games anytime. No downloads, no signup required.</p>
 
-        <button className="mt-6 bg-[#57A6A1] text-[#240750] px-6 py-2 rounded-md font-semibold text-sm sm:text-base hover:opacity-90">Start Playing</button>
+        <button onClick={()=>navigate('/all-games')} className="mt-6 bg-[#57A6A1] text-[#240750] px-6 py-2 rounded-md font-semibold text-sm sm:text-base hover:opacity-90">Start Playing</button>
       </section>
 
       <section

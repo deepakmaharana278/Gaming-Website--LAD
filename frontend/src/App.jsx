@@ -10,6 +10,8 @@ import TermsConditions from "./pages/TermsConditions";
 import Disclaimer from "./pages/Disclaimer";
 import Games from "./pages/Games";
 import GamePlayer from "./pages/GamePlayer";
+import Trending from "./pages/Trending";
+import ForgotPassword from "./Auth/ForgotPassword";
 
 function App() {
   return (
@@ -25,7 +27,8 @@ function App() {
       <Route path="/games" element={<Games />} />
       <Route path="/game/:id" element={<GamePlayer />} />
       <Route path="/all-games" element={<Games />} />
-      <Route path="/trending" element={<Games />} />
+      <Route path="/trending" element={<Trending />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
     </Routes>
   );
 }

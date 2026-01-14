@@ -57,26 +57,17 @@ const Register = () => {
                      border border-neutral-800 rounded-xl shadow-lg p-8"
         >
           {/* Title */}
-          <h2 className="text-2xl font-semibold text-center text-white">
-            Create Your Account 🚀
-          </h2>
-          <p className="text-center text-neutral-400 text-sm mt-2">
-            Join and start playing instantly
-          </p>
+          <h2 className="text-2xl font-semibold text-center text-white">Create Your Account 🚀</h2>
+          <p className="text-center text-neutral-400 text-sm mt-2">Join and start playing instantly</p>
 
           {/* Error */}
-          {error && (
-            <p className="text-red-400 text-sm text-center mt-4">{error}</p>
-          )}
+          {error && <p className="text-red-400 text-sm text-center mt-4">{error}</p>}
 
           {/* Form */}
           <form onSubmit={handleRegister} className="mt-6 space-y-4">
             {/* Username */}
             <div className="relative">
-              <User
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
-                size={18}
-              />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={18} />
               <input
                 type="text"
                 placeholder="Username"
@@ -92,10 +83,7 @@ const Register = () => {
 
             {/* Email */}
             <div className="relative">
-              <Mail
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
-                size={18}
-              />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={18} />
               <input
                 type="email"
                 placeholder="Email address"
@@ -111,10 +99,7 @@ const Register = () => {
 
             {/* Password */}
             <div className="relative">
-              <Lock
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
-                size={18}
-              />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={18} />
               <input
                 type="password"
                 placeholder="Password"
@@ -130,10 +115,7 @@ const Register = () => {
 
             {/* Confirm Password */}
             <div className="relative">
-              <Lock
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
-                size={18}
-              />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={18} />
               <input
                 type="password"
                 placeholder="Confirm password"
@@ -149,11 +131,7 @@ const Register = () => {
 
             {/* Terms */}
             <label className="flex items-start space-x-2 text-sm text-neutral-400">
-              <input
-                type="checkbox"
-                required
-                className="mt-1 accent-blue-500"
-              />
+              <input type="checkbox" required className="mt-1 accent-blue-500" />
               <span>
                 I agree to the{" "}
                 <a href="#" className="text-blue-400 hover:text-blue-500">
@@ -167,9 +145,7 @@ const Register = () => {
               type="submit"
               disabled={loading}
               className="w-full py-2 rounded-md font-medium text-white
-                         bg-linear-to-r from-blue-500 to-blue-700
-                         hover:from-blue-600 hover:to-blue-800
-                         transition disabled:opacity-60"
+              bg-linear-to-r from-blue-500 to-blue-700            hover:from-blue-600 hover:to-blue-800                       transition disabled:opacity-60"
             >
               {loading ? "Creating Account..." : "Create Account"}
             </button>
@@ -183,25 +159,19 @@ const Register = () => {
           </div>
 
           {/* Google Login */}
-                    <button
-                      type="button"
-                      onClick={() => googleLogin(navigate, setError)}
-                      className="w-full flex items-center justify-center gap-2 py-2 rounded-md
-                       bg-white text-black font-medium hover:bg-gray-400 transition"
-                    >
-                      <img
-                        src="https://www.svgrepo.com/show/475656/google-color.svg"
-                        alt="Google"
-                        className="h-5 w-5"
-                      />
-                      Continue with Google
-                    </button>
-          
+          <button
+            type="button"
+            onClick={() => googleLogin(navigate, setError)}
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-md bg-white text-black font-medium hover:bg-gray-400 transition"
+          >
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="h-5 w-5" />
+            Continue with Google
+          </button>
 
           {/* Sign In Link */}
           <p className="text-center mt-3 text-sm text-neutral-400">
             Already have an account?{" "}
-            <Link href="/signin" className="text-blue-400 hover:text-blue-500">
+            <Link to="/login" className="text-blue-400 hover:text-blue-500">
               Sign in
             </Link>
           </p>
