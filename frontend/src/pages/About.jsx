@@ -1,14 +1,22 @@
 import React from 'react'
 import Layout from '../components/Layout'
+import SEO from "../components/SEO";
+import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
     <Layout>
-       <div className="bg-[#0b061a] text-white min-h-screen">
+      <SEO
+        title="About LAD Games | Free Online Gaming Platform"
+        description="Learn about LAD Games – a free online gaming platform where you can play instant browser games without downloads or signup."
+        keywords="about lad games, free online games platform, browser gaming"
+        // url="https://ladgames.online/about"
+      />
+       <div className=" bg-linear-to-br from-[#240750] via-[#344C64]  to-[#240750] text-white min-h-screen">
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 py-20 text-center">
         <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
-          🎮 About <span className="text-purple-400">LAD</span>
+          <i className="fa-solid text-[#9ceef1] fa-gamepad"></i> About <span className="text-[#9ceef1]">LAD</span>
         </h1>
         <p className="text-gray-300 text-lg max-w-3xl mx-auto">
           LAD is a free web-based gaming platform where fun starts instantly.
@@ -19,7 +27,7 @@ const About = () => {
 
       {/* Who We Are */}
       <section className="max-w-7xl mx-auto px-6 py-14">
-        <div className="bg-[#140c2b] rounded-2xl p-8 shadow-lg hover:shadow-purple-700/30 transition">
+        <div className="bg-linear-to-r from-[#133B5C] via-[#1E5F74] to-[#133B5C] rounded-2xl p-8 shadow-lg hover:shadow-purple-700/30 transition">
           <h2 className="text-3xl font-bold mb-4">👾 Who We Are</h2>
           <p className="text-gray-300 leading-relaxed">
             LAD was built by gamers who were tired of heavy downloads, long
@@ -32,7 +40,7 @@ const About = () => {
 
       {/* What We Offer */}
       <section className="max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-8">
-        <div className="bg-[#140c2b] rounded-2xl p-8 shadow-lg hover:shadow-purple-700/30 transition">
+        <div className="bg-linear-to-r from-[#133B5C] via-[#1E5F74] to-[#133B5C] rounded-2xl p-8 shadow-lg hover:shadow-purple-700/30 transition">
           <h2 className="text-3xl font-bold mb-4">🕹️ What We Offer</h2>
           <ul className="text-gray-300 space-y-3">
             <li>⚡ Instant play — no downloads or installs</li>
@@ -44,7 +52,7 @@ const About = () => {
         </div>
 
         {/* Why LAD */}
-        <div className="bg-[#140c2b] rounded-2xl p-8 shadow-lg hover:shadow-purple-700/30 transition">
+        <div className="bg-linear-to-r from-[#133B5C] via-[#1E5F74] to-[#133B5C] rounded-2xl p-8 shadow-lg hover:shadow-purple-700/30 transition">
           <h2 className="text-3xl font-bold mb-4">🔥 Why LAD?</h2>
           <p className="text-gray-300 leading-relaxed">
             LAD removes all the barriers between you and fun. No accounts,
@@ -56,7 +64,7 @@ const About = () => {
 
       {/* Vision */}
       <section className="max-w-7xl mx-auto px-6 py-14">
-        <div className="bg-linear-to-r from-purple-800 to-indigo-900 rounded-2xl p-10 text-center shadow-xl">
+        <div className="bg-linear-to-br from-[#09203F] to-[#537895] rounded-2xl p-10 text-center shadow-xl">
           <h2 className="text-3xl font-bold mb-4">🚀 Our Vision</h2>
           <p className="text-gray-200 max-w-3xl mx-auto leading-relaxed">
             We’re building LAD into a fast, fun, and reliable gaming hub.
@@ -72,12 +80,12 @@ const About = () => {
         <h3 className="text-2xl font-bold mb-6">
           Ready to Play? 🎯
         </h3>
-        <a
-          href="/"
-          className="inline-block bg-purple-600 hover:bg-purple-700 px-10 py-4 rounded-full text-lg font-semibold transition shadow-lg hover:shadow-purple-600/40"
+        <Link
+          to="/all-games"
+          className="inline-block bg-linear-to-br from-[#09203F] to-[#537895] hover:bg-purple-700 px-10 py-4 rounded-full text-lg font-semibold transition shadow-lg hover:shadow-purple-600/40"
         >
           ▶ Play Now
-        </a>
+        </Link>
       </section>
     </div>
     </Layout>

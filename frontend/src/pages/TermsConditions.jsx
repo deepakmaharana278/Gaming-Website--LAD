@@ -1,9 +1,16 @@
 import React from "react";
 import Layout from "../components/Layout";
+import SEO from "../components/SEO";
 
 const TermsConditions = () => {
   return (
     <Layout>
+      <SEO
+        title="Terms and Conditions | LAD Games"
+        description="Read the Terms and Conditions of LAD Games to understand the rules, responsibilities, and guidelines for using our free online gaming platform."
+        keywords="terms and conditions lad games, lad games terms, online gaming terms"
+        // url="https://ladgames.online/terms"
+      />
       <section className="bg-linear-to-bl from-[#240750] via-[#577B8D] to-[#240750] min-h-screen px-4 py-16 text-white">
         <section className="max-w-4xl mx-auto bg-white/10  backdrop-blur-xl border border-white/20  rounded-2xl p-6 sm:p-8 shadow-xl">
           <h1 className="text-2xl sm:text-3xl text-center font-bold text-[#57A6A1]">Terms & Conditions</h1>
@@ -13,8 +20,7 @@ const TermsConditions = () => {
           <div>
             <h2 className="mt-3 font-semibold text-[#B6F500] text-lg">1. Acceptance of Terms</h2>
             <p className="mt-2 text-gray-300">
-              By accessing or using LAD Games, you agree to comply with and be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our
-              website.
+              By accessing or using LAD Games, you agree to comply with and be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our website.
             </p>
           </div>
           <div>
@@ -33,9 +39,8 @@ const TermsConditions = () => {
           <div>
             <h2 className="mt-3 font-semibold text-[#B6F500] text-lg">4. Games & Third-Party Content (IMPORTANT)</h2>
             <p className="mt-2 text-gray-300">
-              The games available on this website are provided by third-party platforms. We do not own or develop these games All game rights belong to their respective owners
-              Advertisements shown inside games are managed by third-party ad providers We are not responsible for: Game performance issues In-game ads Rewards, scores, or progress loss External links
-              inside games
+              The games available on this website are provided by third-party platforms. We do not own or develop these games All game rights belong to their respective owners Advertisements shown
+              inside games are managed by third-party ad providers We are not responsible for: Game performance issues In-game ads Rewards, scores, or progress loss External links inside games
             </p>
           </div>
 
@@ -50,8 +55,7 @@ const TermsConditions = () => {
             <h2 className="mt-3 font-semibold text-[#B6F500] text-lg">6. Intellectual Property</h2>
             <p className="mt-2 text-gray-300">
               Website design, logo, branding, and original content belong to LAD Games.
-              <br /> Games, images, and trademarks belong to their respective owners You may not copy or redistribute
-              content without permission
+              <br /> Games, images, and trademarks belong to their respective owners You may not copy or redistribute content without permission
             </p>
           </div>
 
@@ -64,9 +68,7 @@ const TermsConditions = () => {
 
           <div>
             <h2 className="mt-3 font-semibold text-[#B6F500] text-lg">8. Limitation of Liability</h2>
-            <p className="mt-2 text-gray-300">
-              LAD Games shall not be liable for: Any direct or indirect damages Loss of data, progress, or enjoyment Issues caused by third-party games or ads
-            </p>
+            <p className="mt-2 text-gray-300">LAD Games shall not be liable for: Any direct or indirect damages Loss of data, progress, or enjoyment Issues caused by third-party games or ads</p>
           </div>
 
           <div>

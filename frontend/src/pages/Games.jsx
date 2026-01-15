@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Layout from "../components/Layout";
+import SEO from "../components/SEO";
 
 export default function Games() {
   const [games, setGames] = useState([]);
@@ -82,6 +83,25 @@ export default function Games() {
     return pages;
   };
 
+  // SEO LOGIC
+  let seoTitle = "All Games | Play Free Online Games on LAD Games";
+  let seoDescription = "Browse all free online games on LAD Games. Play action, puzzle, racing, arcade, and more browser games instantly without downloads.";
+  // let seoUrl = "https://ladgames.online/all-games";
+
+  if (category && category !== "All") {
+    const formattedCategory = category.replace(/-/g, " ");
+    seoTitle = `${formattedCategory} Games | LAD Games`;
+    seoDescription = `Play free ${formattedCategory} games online on LAD Games. No downloads required.`;
+    // seoUrl = `https://ladgames.online/all-games?category=${category}`;
+  }
+
+  if (search.trim()) {
+    seoTitle = `Search Results for "${search}" | LAD Games`;
+    seoDescription = `Search results for "${search}" games on LAD Games. Play free online games instantly.`;
+    // seoUrl = `https://ladgames.online/all-games?search=${encodeURIComponent(search)
+    //   } `;
+  }
+
   // Loader
   if (loading) {
     return (
@@ -95,6 +115,7 @@ export default function Games() {
 
   return (
     <Layout>
+      <SEO title={seoTitle} description={seoDescription} keywords="free online games, all games, browser games, lad games" />
       <div className="p-6">
         <h1 className="text-3xl font-bold text-white text-center mb-6">🎮 {pageHeading}</h1>
         {filteredGames.length === 0 && !loading && <p className="text-center text-gray-400 mt-10">No games found</p>}
@@ -102,7 +123,7 @@ export default function Games() {
         {/* Games Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {currentGames.map((game, index) => (
-            <Link to={`/game/${startIndex + index}`} key={startIndex + index} className="group">
+            <Link to={`/game/${encodeURIComponent(game.id)}`} key={game.id} className="group">
               <div className="bg-[#111827] rounded-xl overflow-hidden border border-white/5 hover:border-indigo-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 {/* Image */}
                 <div className="aspect-4/3 bg-black overflow-hidden relative">

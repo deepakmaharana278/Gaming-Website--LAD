@@ -6,6 +6,7 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { googleLogin } from "../utils/googleLogin";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,6 +33,12 @@ const Login = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Login | LAD Games"
+        description="Login to LAD Games to access your account, track progress, and enjoy personalized gaming features."
+        keywords="lad games login, login lad games, gaming account login"
+        // url="https://ladgames.online/login"
+      />
       <div
         className="min-h-screen flex items-center justify-center px-4 
                    bg-linear-to-br from-[#240750] via-[#4a044e] to-[#240750]"

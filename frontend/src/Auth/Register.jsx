@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogin } from "../utils/googleLogin";
+import SEO from "../components/SEO";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -47,6 +48,12 @@ const Register = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Sign Up | LAD Games"
+        description="Create a free LAD Games account to save favorites, track progress, and enjoy a personalized gaming experience."
+        keywords="lad games signup, create gaming account, free gaming account"
+        // url="https://ladgames.online/signup"
+      />
       <div
         className="min-h-screen flex items-center justify-center
                    bg-linear-to-br from-[#240750] via-[#4a044e] to-[#240750]

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import HomeSlider from "./HomeSlider";
 import { useNavigate } from "react-router-dom";
+import SEO from "../components/SEO";
 
 const quotes = [
   "Play more. Stress less. 🎮",
@@ -33,6 +34,12 @@ const Home = () => {
 
   return (
     <Layout>
+      <SEO
+        title="LAD Games | Play Free Online Games"
+        description="Play free online games on LAD Games. No downloads, no signup required."
+        keywords="free online games, browser games, lad games"
+        // url="https://ladgames.online/"
+      />
       {/* Slider */}
       <HomeSlider />
 

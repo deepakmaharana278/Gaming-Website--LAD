@@ -1,10 +1,17 @@
 import React from "react";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 
 const PrivacyPolicy = () => {
   return (
     <Layout>
+      <SEO
+        title="Privacy Policy | LAD Games"
+        description="Read the Privacy Policy of LAD Games to understand how we collect, use, and protect user information while providing free online games."
+        keywords="privacy policy lad games, lad games privacy, online gaming privacy policy"
+        // url="https://ladgames.online/privacy-policy"
+      />
       <section className="bg-linear-to-bl from-[#240750] via-[#577B8D] to-[#240750] min-h-screen px-4 py-16 text-white">
         <div className="max-w-4xl mx-auto bg-white/10  backdrop-blur-xl border border-white/20  rounded-2xl p-6 sm:p-8 shadow-xl">
           <h1 className="text-2xl sm:text-3xl text-center font-bold text-[#57A6A1]">Privacy Policy</h1>
@@ -28,15 +35,15 @@ const PrivacyPolicy = () => {
               </ul>
             </p>
           </div>
-          
+
           <div>
             <h2 className="text-lg font-semibold text-[#B6F500] mt-3">2. How We Use Your Informaion</h2>
-              <ul className="list-disc list-inside mt-2 space-y-1 text-gray-300">
-                <li>To improve user experience</li>
-                <li>To respond to inquiries and support requests</li>
-                <li>To analyze site traffic and performance</li>
-                <li>To ensure security and prevent abuse</li>
-              </ul>
+            <ul className="list-disc list-inside mt-2 space-y-1 text-gray-300">
+              <li>To improve user experience</li>
+              <li>To respond to inquiries and support requests</li>
+              <li>To analyze site traffic and performance</li>
+              <li>To ensure security and prevent abuse</li>
+            </ul>
           </div>
 
           <div>
@@ -71,7 +78,14 @@ const PrivacyPolicy = () => {
 
           <div>
             <h2 className="mt-3 text-[#B6F500] font-semibold text-lg">8. Contact Us</h2>
-            <p className="mt-2 text-gray-300">If you have any questions about this Privacy Policy, please contact us at: <span><Link to='/contact' className="bg-[#2b86b4] px-3 py-2 rounded-md hover:bg-[#5f7682]">Contact</Link></span> </p>
+            <p className="mt-2 text-gray-300">
+              If you have any questions about this Privacy Policy, please contact us at:{" "}
+              <span>
+                <Link to="/contact" className="bg-[#2b86b4] px-3 py-2 rounded-md hover:bg-[#5f7682]">
+                  Contact
+                </Link>
+              </span>{" "}
+            </p>
           </div>
         </div>
       </section>

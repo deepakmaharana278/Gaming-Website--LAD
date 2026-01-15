@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
+import SEO from "../components/SEO";
 
 const Contact = () => {
 
@@ -30,6 +31,12 @@ const Contact = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Contact LAD Games | Get in Touch"
+        description="Contact LAD Games for support, feedback, or business inquiries. We’re happy to hear from you."
+        keywords="contact lad games, lad games support, gaming website contact"
+        // url="https://ladgames.online/contact"
+      />
       <ToastContainer position="top-center" autoClose={3000} />
       <section
         className="min-h-screen px-4 py-16 bg-linear-to-br from-[#240750] via-[#344C64]  to-[#240750] text-white flex items-center"
