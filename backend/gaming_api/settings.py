@@ -111,7 +111,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 CORS_ALLOWED_ORIGINS = [
-    "https://gaming-website-lad.vercel.app/",
+    "https://gaming-website-lad.vercel.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

@@ -38,30 +38,30 @@ export default function Games() {
     let result = games;
 
     if (category !== "All") {
-      result = result.filter(
-        (g) => g.category.toLowerCase() === category.toLowerCase()
-      );
+      result = result.filter((g) => g.category.toLowerCase() === category.toLowerCase());
     }
 
     if (search.trim()) {
-      result = result.filter(
-        (g) =>
-          g.title.toLowerCase().includes(search.toLowerCase()) ||
-          g.category.toLowerCase().includes(search.toLowerCase())
-      );
+      result = result.filter((g) => g.title.toLowerCase().includes(search.toLowerCase()) || g.category.toLowerCase().includes(search.toLowerCase()));
     }
 
     setFilteredGames(result);
     setCurrentPage(1);
   }, [search, category, games]);
 
+  // heading according to games
+  let pageHeading = "Explore Games";
+
+  if (category && category !== "All") {
+    pageHeading = `${category.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())} Games`;
+  } else if (search.trim()) {
+    pageHeading = `Search Results for "${search}"`;
+  }
+
   // Pagination calculations
   const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
   const startIndex = (currentPage - 1) * gamesPerPage;
-  const currentGames = filteredGames.slice(
-    startIndex,
-    startIndex + gamesPerPage
-  );
+  const currentGames = filteredGames.slice(startIndex, startIndex + gamesPerPage);
 
   // Pagination numbers logic
   const getPagination = () => {
@@ -75,15 +75,7 @@ export default function Games() {
       } else if (currentPage >= totalPages - 2) {
         pages.push(1, "...", totalPages - 2, totalPages - 1, totalPages);
       } else {
-        pages.push(
-          1,
-          "...",
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          "...",
-          totalPages
-        );
+        pages.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
       }
     }
 
@@ -95,10 +87,7 @@ export default function Games() {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6">
         {[...Array(16)].map((_, i) => (
-          <div
-            key={i}
-            className="animate-pulse bg-gray-800 h-52 rounded-xl"
-          ></div>
+          <div key={i} className="animate-pulse bg-gray-800 h-52 rounded-xl"></div>
         ))}
       </div>
     );
@@ -107,38 +96,29 @@ export default function Games() {
   return (
     <Layout>
       <div className="p-6">
-        <h1 className="text-3xl font-bold text-white text-center mb-6">
-          🎮 All Games
-        </h1>
+        <h1 className="text-3xl font-bold text-white text-center mb-6">🎮 {pageHeading}</h1>
+        {filteredGames.length === 0 && !loading && <p className="text-center text-gray-400 mt-10">No games found</p>}
 
         {/* Games Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {currentGames.map((game, index) => (
-            <Link
-              to={`/game/${startIndex + index}`}
-              key={startIndex + index}
-            >
-              <div className="relative bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition group">
-                <img
-                  src={game.thumb}
-                  alt={game.title}
-                  loading="lazy"
-                  className="w-full h-40 object-cover"
-                />
+            <Link to={`/game/${startIndex + index}`} key={startIndex + index} className="group">
+              <div className="bg-[#111827] rounded-xl overflow-hidden border border-white/5 hover:border-indigo-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                {/* Image */}
+                <div className="aspect-4/3 bg-black overflow-hidden relative">
+                  <img src={game.thumb} alt={game.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
 
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                  <span className="text-white text-lg font-bold">
-                    ▶ Play
-                  </span>
+                  {/* Play Overlay */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                    <span className="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full">▶ Play</span>
+                  </div>
                 </div>
 
+                {/* Info */}
                 <div className="p-3">
-                  <h3 className="text-sm font-semibold text-white line-clamp-2">
-                    {game.title}
-                  </h3>
-                  <span className="inline-block mt-1 text-xs bg-indigo-600 text-white px-2 py-1 rounded">
-                    {game.category}
-                  </span>
+                  <h3 className="text-sm font-semibold text-white line-clamp-2">{game.title}</h3>
+
+                  <span className="text-xs text-gray-400">{game.category}</span>
                 </div>
               </div>
             </Link>
@@ -149,34 +129,21 @@ export default function Games() {
         {totalPages > 1 && (
           <div className="flex justify-center mt-10 gap-2 flex-wrap items-center">
             {/* Prev */}
-            <button
-              onClick={() =>
-                setCurrentPage((p) => Math.max(p - 1, 1))
-              }
-              disabled={currentPage === 1}
-              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40"
-            >
+            <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1} className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40">
               Prev
             </button>
 
             {/* Numbers */}
             {getPagination().map((page, i) =>
               page === "..." ? (
-                <span
-                  key={`dots-${i}`}
-                  className="px-3 py-2 text-gray-400"
-                >
+                <span key={`dots-${i}`} className="px-3 py-2 text-gray-400">
                   ...
                 </span>
               ) : (
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`px-4 py-2 rounded ${
-                    currentPage === page
-                      ? "bg-indigo-600 text-white"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                  }`}
+                  className={`px-4 py-2 rounded ${currentPage === page ? "bg-indigo-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
                 >
                   {page}
                 </button>
@@ -184,24 +151,12 @@ export default function Games() {
             )}
 
             {/* Next */}
-            <button
-              onClick={() =>
-                setCurrentPage((p) =>
-                  Math.min(p + 1, totalPages)
-                )
-              }
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40"
-            >
+            <button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40">
               Next
             </button>
 
             {/* Last */}
-            <button
-              onClick={() => setCurrentPage(totalPages)}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40"
-            >
+            <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40">
               Last
             </button>
           </div>

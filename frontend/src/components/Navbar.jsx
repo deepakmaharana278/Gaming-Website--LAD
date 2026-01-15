@@ -135,31 +135,53 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden mt-4 space-y-4 px-2 text-sm">
-          <Link to="/" className="block" onClick={() => setOpen(false)}>
-            Home
-          </Link>
-          <Link to="/trending" className="block" onClick={() => setOpen(false)}>
-            Trending
-          </Link>
-          <Link to="/all-games" className="block" onClick={() => setOpen(false)}>
-            All Games
-          </Link>
-
-          {!user ? (
-            <>
-              <Link to="/login" onClick={() => setOpen(false)}>
-                Login
-              </Link>
-              <Link to="/signup" onClick={() => setOpen(false)} className="block bg-[#57A6A1] text-[#240750] px-3 py-2 rounded-md font-semibold text-center">
-                Signup
-              </Link>
-            </>
-          ) : (
-            <button onClick={handleLogout} className="w-full bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md font-semibold">
-              Logout
+        <div className="md:hidden mt-4 bg-[#1b133f] rounded-xl p-4 space-y-5 text-sm">
+          {/* Search */}
+          <div className="flex gap-2">
+            <input
+              type="search"
+              placeholder="Search games..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="flex-1 px-3 py-2 rounded-md bg-[#344C64] border border-[#577B8D]"
+            />
+            <button onClick={handleSearch} className="bg-[#57A6A1] text-[#240750] px-4 rounded-md font-semibold">
+              Go
             </button>
-          )}
+          </div>
+
+          {/* Category */}
+          <select
+            value={category}
+            onChange={(e) => {
+              const value = e.target.value;
+              setCategory(value);
+              setOpen(false);
+              navigate(`/all-games?search=${search}&category=${value}`);
+            }}
+            className="w-full bg-[#344C64] border border-[#577B8D] px-3 py-2 rounded-md"
+          >
+            <option value="All">All Categories</option>
+            {categories.map((cat, i) => (
+              <option key={i} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+
+          {/* Navigation */}
+          <div className="space-y-3 border-t text-center border-white/10 pt-3">
+            <Link to="/" onClick={() => setOpen(false)} className="block hover:text-[#57A6A1]">
+              Home
+            </Link>
+            <Link to="/trending" onClick={() => setOpen(false)} className="block hover:text-[#57A6A1]">
+              Trending
+            </Link>
+            <Link to="/all-games" onClick={() => setOpen(false)} className="block hover:text-[#57A6A1]">
+              All Games
+            </Link>
+          </div>
         </div>
       )}
     </nav>
