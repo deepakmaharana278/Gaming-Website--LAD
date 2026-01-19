@@ -13,6 +13,9 @@ CACHE = {
 
 FEED_URL = os.getenv("GAMEMONETIZE_FEED_URL")
 
+def health_check(request):
+    return JsonResponse({"status": "ok"})
+
 def detect_platform(entry):
     text = (
         entry.get("title", "") +
