@@ -12,6 +12,7 @@ import Games from "./pages/Games";
 import GamePlayer from "./pages/GamePlayer";
 import Trending from "./pages/Trending";
 import ForgotPassword from "./Auth/ForgotPassword";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
       <Route path="/all-games" element={<Games />} />
       <Route path="/trending" element={<Trending />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }

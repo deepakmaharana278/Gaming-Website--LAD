@@ -11,6 +11,7 @@ export default function Games() {
   const [params] = useSearchParams();
   const [search, setSearch] = useState(params.get("search") || "");
   const [category, setCategory] = useState(params.get("category") || "All");
+  const [platform, setPlatform] = useState("All");
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,13 +43,17 @@ export default function Games() {
       result = result.filter((g) => g.category.toLowerCase() === category.toLowerCase());
     }
 
+    if (platform !== "All") {
+      result = result.filter((g) => g.platform.toLowerCase() === platform.toLowerCase());
+    }
+
     if (search.trim()) {
       result = result.filter((g) => g.title.toLowerCase().includes(search.toLowerCase()) || g.category.toLowerCase().includes(search.toLowerCase()));
     }
 
     setFilteredGames(result);
     setCurrentPage(1);
-  }, [search, category, games]);
+  }, [search, platform, category, games]);
 
   // heading according to games
   let pageHeading = "Explore Games";
@@ -120,6 +125,15 @@ export default function Games() {
         <h1 className="text-3xl font-bold text-white text-center mb-6">🎮 {pageHeading}</h1>
         {filteredGames.length === 0 && !loading && <p className="text-center text-gray-400 mt-10">No games found</p>}
 
+        <div className="text-center mb-3">
+          <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="px-4 py-2 bg-gray-800 text-white rounded">
+            <option value="All">All Platforms</option>
+            <option value="desktop">Desktop</option>
+            <option value="android">Android</option>
+            <option value="ios">iOS</option>
+          </select>
+        </div>
+
         {/* Games Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {currentGames.map((game, index) => (
@@ -168,7 +182,7 @@ export default function Games() {
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
 
             {/* Next */}

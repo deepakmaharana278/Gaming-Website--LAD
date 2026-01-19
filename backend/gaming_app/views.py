@@ -13,6 +13,25 @@ CACHE = {
 
 FEED_URL = os.getenv("GAMEMONETIZE_FEED_URL")
 
+def detect_platform(entry):
+    text = (
+        entry.get("title", "") +
+        entry.get("description", "") +
+        entry.get("instructions", "") +
+        " ".join([t.term for t in entry.tags] if "tags" in entry else [])
+    ).lower()
+
+    url = entry.get("url", "").lower()
+
+    if "android" in text or "apk" in text or "play.google" in url:
+        return "android"
+
+    if "ios" in text or "iphone" in text or "ipad" in text or "apple" in url:
+        return "ios"
+
+    return "desktop"
+
+
 
 def gamemonetize_games(request):
     now = time.time()
@@ -35,7 +54,9 @@ def gamemonetize_games(request):
             "tags": [t.term for t in entry.tags] if "tags" in entry else [],
             "url": entry.get("url", ""),
             "thumb": entry.get("thumb", ""),
+            "platform": detect_platform(entry),   
         })
+
 
     CACHE["data"] = games
     CACHE["time"] = now
