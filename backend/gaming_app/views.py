@@ -1,8 +1,11 @@
 from django.http import JsonResponse
-import requests
+from django.views.decorators.csrf import csrf_exempt
 import feedparser
 import time
 import os
+import json
+from .models import *
+from django.http import JsonResponse
 
 
 CACHE = {
@@ -65,3 +68,41 @@ def gamemonetize_games(request):
     CACHE["time"] = now
 
     return JsonResponse(games, safe=False)
+
+@csrf_exempt
+def save_user(request):
+
+    if request.method != "POST":
+        return JsonResponse({"error": "POST only"}, status=405)
+
+    data = json.loads(request.body)
+    user, created = User.objects.get_or_create(
+        firebase_uid=data["uid"],
+        defaults={
+            "name": data.get("name", ""),
+            "email": data.get("email", ""),
+            "photo": data.get("photo", ""),
+        }
+    )
+
+    return JsonResponse({"status": "ok"})
+
+
+def get_user(request, uid):
+    try:
+        user = User.objects.get(firebase_uid=uid)
+        return JsonResponse({
+            "status": "ok",
+            "user": {
+                "name": user.name,
+                "email": user.email,
+                "photo": user.photo,
+                "joined_at": user.joined_at.strftime("%Y-%m-%d"),
+            }
+        })
+    except User.DoesNotExist:
+        return JsonResponse(
+            {"status": "error", "message": "User not found"},
+            status=404
+        )
+

@@ -6,6 +6,7 @@ import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogin } from "../utils/googleLogin";
 import SEO from "../components/SEO";
+import { saveUserToBackend } from "../utils/saveUserToBackend";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -18,33 +19,35 @@ const Register = () => {
   const [error, setError] = useState("");
 
   const handleRegister = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+  if (password !== confirmPassword) {
+    setError("Passwords do not match");
+    return;
+  }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
-    }
+  if (password.length < 6) {
+    setError("Password must be at least 6 characters");
+    return;
+  }
 
-    try {
-      setLoading(true);
-      await createUserWithEmailAndPassword(auth, email, password);
+  try {
+    setLoading(true);
 
-      // 🔹 Later you can store username in Firestore
-      // console.log("Username:", username);
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+    const firebaseUser = res.user;
+    localStorage.setItem("uid", firebaseUser.uid);
+    // 🔥 SAVE USER TO DJANGO
+    await saveUserToBackend(firebaseUser, username);
 
-      navigate("/"); // redirect after signup
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    navigate("/dashboard");
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Layout>

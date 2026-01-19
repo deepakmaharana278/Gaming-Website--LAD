@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { googleLogin } from "../utils/googleLogin";
 import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
+import { saveUserToBackend } from "../utils/saveUserToBackend";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,19 +18,26 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    try {
-      setLoading(true);
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/"); // redirect after login
-    } catch (err) {
-      setError("Invalid email or password");
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    const firebaseUser = res.user;
+    localStorage.setItem("uid", firebaseUser.uid);
+
+    // 🔥 SYNC USER WITH BACKEND
+    await saveUserToBackend(firebaseUser);
+
+    navigate("/dashboard", { replace: true });
+  } catch (err) {
+    setError("Invalid email or password");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Layout>
@@ -122,7 +130,7 @@ const Login = () => {
           {/* Google Login */}
           <button
             type="button"
-            onClick={() => googleLogin(navigate, setError)}
+            onClick={() => googleLogin(navigate)}
             className="w-full flex items-center justify-center gap-2 py-2 rounded-md
              bg-white text-black font-medium hover:bg-gray-400 transition"
           >

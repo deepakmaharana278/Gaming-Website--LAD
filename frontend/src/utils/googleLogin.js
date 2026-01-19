@@ -1,11 +1,20 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
+import { saveUserToBackend } from "./saveUserToBackend";
 
-export const googleLogin = async (navigate, setError) => {
+export const googleLogin = async (navigate) => {
   try {
-    await signInWithPopup(auth, googleProvider);
-    navigate("/");
-  } catch (err) {
-    setError(err.message);
+    const result = await signInWithPopup(auth, googleProvider);
+    const firebaseUser = result.user;
+
+    // ✅ store uid
+    localStorage.setItem("uid", firebaseUser.uid);
+
+    // ✅ sync with backend
+    await saveUserToBackend(firebaseUser);
+
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Google login failed:", error);
   }
 };
