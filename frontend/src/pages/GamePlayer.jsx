@@ -9,7 +9,10 @@ export default function GamePlayer() {
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/games/`)
       .then((res) => res.json())
-      .then((data) => setGame(data[id]));
+      .then((data) => {
+        const found = data.find((g) => g.id === decodeURIComponent(id));
+        setGame(found);
+      });
   }, [id]);
 
   if (!game) return <h2 className="text-white p-6">Loading...</h2>;

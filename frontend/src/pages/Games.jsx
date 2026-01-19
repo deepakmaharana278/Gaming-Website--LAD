@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Layout from "../components/Layout";
 
@@ -10,6 +10,8 @@ export default function Games() {
   const [params] = useSearchParams();
   const [search, setSearch] = useState(params.get("search") || "");
   const [category, setCategory] = useState(params.get("category") || "All");
+  const [platform, setPlatform] = useState("All");
+
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,6 +34,14 @@ export default function Games() {
       })
       .catch(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    const platform = document.getElementById("platformFilter").value;
+
+    fetch(`/api/games?platform=${platform}`)
+      .then((res) => res.json())
+      .then((data) => renderGames(data));
+   },[platform]);
 
   // Filtering
   useEffect(() => {
@@ -96,27 +106,52 @@ export default function Games() {
   return (
     <Layout>
       <div className="p-6">
-        <h1 className="text-3xl font-bold text-white text-center mb-6">🎮 {pageHeading}</h1>
-        {filteredGames.length === 0 && !loading && <p className="text-center text-gray-400 mt-10">No games found</p>}
+        <h1 className="text-3xl font-bold text-white text-center mb-6">
+          🎮 {pageHeading}
+        </h1>
+        <div className="flex justify-center mb-6">
+          <select id="platformFilter" onchange="loadGames()">
+            <option value="all">All</option>
+            <option value="Android">Android</option>
+            <option value="Desktop">Desktop</option>
+          </select>
+        </div>
+
+        {filteredGames.length === 0 && !loading && (
+          <p className="text-center text-gray-400 mt-10">No games found</p>
+        )}
 
         {/* Games Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {currentGames.map((game, index) => (
-            <Link to={`/game/${startIndex + index}`} key={startIndex + index} className="group">
+            <Link
+              to={`/game/${encodeURIComponent(game.id)}`}
+              key={game.id}
+              className="group"
+            >
               <div className="bg-[#111827] rounded-xl overflow-hidden border border-white/5 hover:border-indigo-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 {/* Image */}
                 <div className="aspect-4/3 bg-black overflow-hidden relative">
-                  <img src={game.thumb} alt={game.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                  <img
+                    src={game.thumb}
+                    alt={game.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                  />
 
                   {/* Play Overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                    <span className="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full">▶ Play</span>
+                    <span className="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full">
+                      ▶ Play
+                    </span>
                   </div>
                 </div>
 
                 {/* Info */}
                 <div className="p-3">
-                  <h3 className="text-sm font-semibold text-white line-clamp-2">{game.title}</h3>
+                  <h3 className="text-sm font-semibold text-white line-clamp-2">
+                    {game.title}
+                  </h3>
 
                   <span className="text-xs text-gray-400">{game.category}</span>
                 </div>
@@ -129,7 +164,11 @@ export default function Games() {
         {totalPages > 1 && (
           <div className="flex justify-center mt-10 gap-2 flex-wrap items-center">
             {/* Prev */}
-            <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1} className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40"
+            >
               Prev
             </button>
 
@@ -143,7 +182,11 @@ export default function Games() {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`px-4 py-2 rounded ${currentPage === page ? "bg-indigo-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
+                  className={`px-4 py-2 rounded ${
+                    currentPage === page
+                      ? "bg-indigo-600 text-white"
+                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  }`}
                 >
                   {page}
                 </button>
@@ -151,12 +194,20 @@ export default function Games() {
             )}
 
             {/* Next */}
-            <button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40">
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40"
+            >
               Next
             </button>
 
             {/* Last */}
-            <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40">
+            <button
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-40"
+            >
               Last
             </button>
           </div>
