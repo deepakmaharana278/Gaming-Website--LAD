@@ -5,5 +5,7 @@ urlpatterns = [
     path("games/", gamemonetize_games),
     path("save-user/", save_user),
     path("get-user/<str:uid>/", get_user),
+    path("save-game-play/", save_game_play),
+    path("dashboard-stats/<str:uid>/", dashboard_stats),
     path("health/",health_check),
 ]

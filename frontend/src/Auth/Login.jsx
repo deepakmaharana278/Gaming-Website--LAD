@@ -31,7 +31,7 @@ const Login = () => {
     // 🔥 SYNC USER WITH BACKEND
     await saveUserToBackend(firebaseUser);
 
-    navigate("/dashboard", { replace: true });
+    navigate("/all-games",);
   } catch (err) {
     setError("Invalid email or password");
   } finally {

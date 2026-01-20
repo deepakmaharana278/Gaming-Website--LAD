@@ -41,7 +41,7 @@ const Register = () => {
     // 🔥 SAVE USER TO DJANGO
     await saveUserToBackend(firebaseUser, username);
 
-    navigate("/dashboard");
+    navigate("/login");
   } catch (err) {
     setError(err.message);
   } finally {

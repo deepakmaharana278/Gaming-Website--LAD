@@ -6,6 +6,9 @@ import os
 import json
 from .models import *
 from django.http import JsonResponse
+from datetime import timedelta
+from django.db.models import Count
+from django.utils.timezone import now
 
 
 CACHE = {
@@ -16,8 +19,10 @@ CACHE = {
 
 FEED_URL = os.getenv("GAMEMONETIZE_FEED_URL")
 
+
 def health_check(request):
     return JsonResponse({"status": "ok"})
+
 
 def detect_platform(entry):
     text = (
@@ -36,7 +41,6 @@ def detect_platform(entry):
         return "ios"
 
     return "desktop"
-
 
 
 def gamemonetize_games(request):
@@ -60,14 +64,14 @@ def gamemonetize_games(request):
             "tags": [t.term for t in entry.tags] if "tags" in entry else [],
             "url": entry.get("url", ""),
             "thumb": entry.get("thumb", ""),
-            "platform": detect_platform(entry),   
+            "platform": detect_platform(entry),
         })
-
 
     CACHE["data"] = games
     CACHE["time"] = now
 
     return JsonResponse(games, safe=False)
+
 
 @csrf_exempt
 def save_user(request):
@@ -106,3 +110,68 @@ def get_user(request, uid):
             status=404
         )
 
+
+@csrf_exempt
+def save_game_play(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST only"}, status=405)
+
+    data = json.loads(request.body)
+
+    user = User.objects.get(firebase_uid=data["uid"])
+
+    GamePlay.objects.create(
+        user=user,
+        game_name=data["game_name"]
+    )
+
+    return JsonResponse({"status": "saved"})
+
+
+# Dashboard stats
+def dashboard_stats(request, uid):
+    user = User.objects.get(firebase_uid=uid)
+
+    # Total games played (all time)
+    total_games = GamePlay.objects.filter(user=user).count()
+
+    # Most played game
+    most_played = (
+        GamePlay.objects
+        .filter(user=user)
+        .values("game_name")
+        .annotate(count=Count("id"))
+        .order_by("-count")
+        .first()
+    )
+
+    # Last game played
+    last_game = (
+        GamePlay.objects
+        .filter(user=user)
+        .order_by("-played_at")
+        .first()
+    )
+
+    # Level logic (last 30 days)
+    last_30_days = now() - timedelta(days=30)
+    recent_games = GamePlay.objects.filter(
+        user=user,
+        played_at__gte=last_30_days
+    ).count()
+
+
+    GAMES_PER_LEVEL = 5
+    level = (recent_games // GAMES_PER_LEVEL) + 1
+
+    return JsonResponse({
+        "status": "ok",
+        "stats": {
+            "total_games": total_games,
+            "most_played": most_played["game_name"] if most_played else None,
+            "last_game": last_game.game_name if last_game else None,
+            "level": level,
+            "recent_games": recent_games,  
+            "games_per_level": GAMES_PER_LEVEL
+        }
+    })

@@ -7,6 +7,7 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     const uid = localStorage.getItem("uid");
@@ -16,29 +17,51 @@ const Dashboard = () => {
       return;
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/get-user/${uid}/`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "ok") {
-          setUser(data.user);
-        } else {
+    const fetchDashboardData = async () => {
+      try {
+        // Fetch user
+        const userRes = await fetch(`${import.meta.env.VITE_API_URL}/api/get-user/${uid}/`);
+        const userData = await userRes.json();
+
+        if (userData.status !== "ok") {
           navigate("/login");
+          return;
         }
-      })
-      .catch((err) => {
+
+        setUser(userData.user);
+
+        // Fetch stats
+        const statsRes = await fetch(`${import.meta.env.VITE_API_URL}/api/dashboard-stats/${uid}/`);
+        const statsData = await statsRes.json();
+
+        if (statsData.status === "ok") {
+          setStats(statsData.stats);
+        }
+      } catch (err) {
         console.error(err);
         navigate("/login");
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
   }, [navigate]);
 
-  // ✅ LOADING UI (CORRECT PLACE)
+  const progressPercent = stats ? ((stats.recent_games % stats.games_per_level) / stats.games_per_level) * 100 : 0;
+
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen flex items-center justify-center text-white">
-          Loading dashboard...
-        </div>
+        <div className="min-h-screen flex items-center justify-center text-white">Loading dashboard...</div>
+      </Layout>
+    );
+  }
+
+  if (!user || !stats) {
+    return (
+      <Layout>
+        <div className="min-h-screen flex items-center justify-center text-white">Failed to load dashboard</div>
       </Layout>
     );
   }
@@ -49,9 +72,6 @@ const Dashboard = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Player Dashboard</h1>
-          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">
-            Logout
-          </button>
         </div>
 
         {/* Grid Layout */}
@@ -59,14 +79,25 @@ const Dashboard = () => {
           {/* Profile Card */}
           <div className="bg-[#1a2138] p-5 rounded-xl shadow-lg">
             <div className="flex items-center gap-4">
-              <img
-                src={user?.photo || "https://i.pravatar.cc/80"}
-                alt="avatar"
-                className="rounded-full w-20 h-20 border-4 border-blue-500"
-              />
+              <img src={user?.photo || "https://i.pravatar.cc/80"} alt="avatar" className="rounded-full w-20 h-20 border-4 border-blue-500" />
+
               <div>
                 <h2 className="text-xl font-semibold">{user?.name}</h2>
                 <p className="text-gray-400 text-sm">Player Account</p>
+                <p className="text-gray-400 text-sm mt-1">Welcome back, {user?.name?.split(" ")[0]} 👋</p>
+              </div>
+            </div>
+
+            <div className="mt-5">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-sm font-semibold text-white">Level {stats?.level}</span>
+                <span className="text-xs mt-2 text-gray-400">
+                  {stats?.recent_games % stats?.games_per_level} / {stats?.games_per_level}
+                </span>
+              </div>
+
+              <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                <div className="h-full bg-green-500 transition-all duration-500" style={{ width: `${progressPercent}%` }} />
               </div>
             </div>
           </div>
@@ -77,10 +108,18 @@ const Dashboard = () => {
               <FaGamepad /> Game Stats
             </h3>
             <ul className="space-y-2 text-gray-300">
-              <li>Total Games Played: <span className="text-white font-bold">127</span></li>
-              <li>Wins: <span className="text-green-400 font-bold">58</span></li>
-              <li>Losses: <span className="text-red-400 font-bold">69</span></li>
-              <li>Highest Score: <span className="text-yellow-300 font-bold">9800</span></li>
+              <li>
+                Total Games Played : <span className="text-white font-bold"> {stats?.total_games ?? 0}</span>
+              </li>
+              <li>
+                Most Played :<span className="text-yellow-300 font-bold"> {stats?.most_played ?? "None"}</span>
+              </li>
+              <li>
+                Last Game Played :<span className="text-blue-300 font-bold"> {stats?.last_game ?? "None"}</span>
+              </li>
+              <li>
+                Level :<span className="text-green-400 font-bold"> {stats?.level ?? 1}</span>
+              </li>
             </ul>
           </div>
 
@@ -90,10 +129,18 @@ const Dashboard = () => {
               <FaUser /> User Information
             </h3>
             <ul className="space-y-2 text-gray-300 text-sm">
-              <li>Name: <span className="text-white font-semibold">{user?.name}</span></li>
-              <li>Email: <span className="text-blue-300">{user?.email}</span></li>
-              <li>Joined: <span className="text-gray-200">{user?.joined_at}</span></li>
-              <li>Account Status: <span className="text-green-400 font-semibold">Active</span></li>
+              <li>
+                Name: <span className="text-white font-semibold">{user?.name}</span>
+              </li>
+              <li>
+                Email: <span className="text-blue-300">{user?.email}</span>
+              </li>
+              <li>
+                Joined: <span className="text-gray-200">{user?.joined_at}</span>
+              </li>
+              <li>
+                Account Status: <span className="text-green-400 font-semibold">Active</span>
+              </li>
             </ul>
           </div>
 
@@ -104,10 +151,7 @@ const Dashboard = () => {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {["Car Racing", "Shooting Arena", "Puzzle Quest", "Runner PRO"].map((game) => (
-                <div
-                  key={game}
-                  className="bg-[#11172d] p-3 rounded-lg text-center hover:bg-[#18203a] cursor-pointer transition"
-                >
+                <div key={game} className="bg-[#11172d] p-3 rounded-lg text-center hover:bg-[#18203a] cursor-pointer transition">
                   {game}
                 </div>
               ))}

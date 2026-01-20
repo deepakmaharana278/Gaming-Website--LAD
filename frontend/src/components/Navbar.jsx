@@ -119,10 +119,10 @@ const Navbar = () => {
               </button>
 
               {/* Username + Profile Pic (RIGHTMOST) */}
-              <div className="flex items-center gap-2 bg-[#344C64] px-3 py-1.5 rounded-full">
+              <Link to="/dashboard" className="flex items-center gap-2 bg-[#344C64] px-3 py-1.5 rounded-full hover:ring-2 ring-[#57A6A1]">
                 <span className="hidden sm:block text-xs font-medium truncate max-w-30">{user.displayName || "Player"}</span>
                 <img src={user.photoURL || "https://i.pravatar.cc/40"} alt="Profile" className="h-8 w-8 rounded-full object-cover border border-[#57A6A1]" />
-              </div>
+              </Link>
             </div>
           )}
 

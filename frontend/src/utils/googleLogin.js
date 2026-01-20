@@ -7,13 +7,13 @@ export const googleLogin = async (navigate) => {
     const result = await signInWithPopup(auth, googleProvider);
     const firebaseUser = result.user;
 
-    // ✅ store uid
+    // store uid
     localStorage.setItem("uid", firebaseUser.uid);
 
-    // ✅ sync with backend
+    // sync with backend
     await saveUserToBackend(firebaseUser);
 
-    navigate("/dashboard");
+    navigate("/all-games");
   } catch (error) {
     console.error("Google login failed:", error);
   }
