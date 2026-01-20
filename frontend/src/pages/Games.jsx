@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
+import { setFavoriteGame } from "../utils/setFavoriteGame";
+
 
 export default function Games() {
   const [games, setGames] = useState([]);
@@ -12,6 +14,8 @@ export default function Games() {
   const [search, setSearch] = useState(params.get("search") || "");
   const [category, setCategory] = useState(params.get("category") || "All");
   const [platform, setPlatform] = useState("All");
+  const uid = localStorage.getItem("uid");
+  const [favoriteGame, setFavoriteGameState] = useState(null);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,6 +92,20 @@ export default function Games() {
     return pages;
   };
 
+  // Favorite game
+  useEffect(() => {
+  if (!uid) return;
+
+  fetch(`${import.meta.env.VITE_API_URL}/api/get-user/${uid}/`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.status === "ok") {
+        setFavoriteGameState(data.user.favorite_game);
+      }
+    });
+}, [uid]);
+
+
   // SEO LOGIC
   let seoTitle = "All Games | Play Free Online Games on LAD Games";
   let seoDescription = "Browse all free online games on LAD Games. Play action, puzzle, racing, arcade, and more browser games instantly without downloads.";
@@ -134,31 +152,86 @@ export default function Games() {
           </select>
         </div>
 
+        
         {/* Games Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {currentGames.map((game, index) => (
-            <Link to={`/game/${encodeURIComponent(game.id)}`} key={game.id} className="group">
-              <div className="bg-[#111827] rounded-xl overflow-hidden border border-white/5 hover:border-indigo-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                {/* Image */}
-                <div className="aspect-4/3 bg-black overflow-hidden relative">
-                  <img src={game.thumb} alt={game.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+  {currentGames.map((game) => {
+    const isFavorite = favoriteGame === game.title;
 
-                  {/* Play Overlay */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                    <span className="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full">▶ Play</span>
-                  </div>
-                </div>
+    return (
+      <div
+        key={game.id}
+        className="group relative bg-[#111827] rounded-xl overflow-hidden
+                   border border-white/5 hover:border-indigo-500
+                   transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+      >
+        {/* ⭐ Favorite Toggle Button */}
+        {uid && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
 
-                {/* Info */}
-                <div className="p-3">
-                  <h3 className="text-sm font-semibold text-white line-clamp-2">{game.title}</h3>
+              const newFav = isFavorite ? null : game.title;
 
-                  <span className="text-xs text-gray-400">{game.category}</span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              setFavoriteGame(uid, newFav).then(() => {
+                setFavoriteGameState(newFav);
+              });
+            }}
+            className={`absolute top-2 right-2 z-10 w-8 h-8
+                        rounded-full flex items-center justify-center
+                        text-sm font-bold transition
+                        ${
+                          isFavorite
+                            ? "bg-red-600 text-white"
+                            : "bg-yellow-400 text-black"
+                        }`}
+            title={isFavorite ? "Remove Favorite" : "Add to Favorite"}
+          >
+            {isFavorite ? "❌" : "⭐"}
+          </button>
+        )}
+
+        {/* Clickable Game Card */}
+        <Link to={`/game/${encodeURIComponent(game.id)}`}>
+          {/* Thumbnail */}
+          <div className="aspect-4/3 bg-black overflow-hidden relative">
+            <img
+              src={game.thumb}
+              alt={game.title}
+              loading="lazy"
+              className="w-full h-full object-cover
+                         group-hover:scale-105 transition duration-300"
+            />
+
+            {/* Play Overlay */}
+            <div
+              className="absolute inset-0 bg-black/60 opacity-0
+                         group-hover:opacity-100 transition
+                         flex items-center justify-center"
+            >
+              <span className="px-5 py-2 bg-indigo-600 text-white
+                               text-sm font-semibold rounded-full">
+                ▶ Play
+              </span>
+            </div>
+          </div>
+
+          {/* Info */}
+          <div className="p-3">
+            <h3 className="text-sm font-semibold text-white line-clamp-2">
+              {game.title}
+            </h3>
+            <span className="text-xs text-gray-400">
+              {game.category}
+            </span>
+          </div>
+        </Link>
+      </div>
+    );
+  })}
+</div>
+
 
         {/* Pagination */}
         {totalPages > 1 && (

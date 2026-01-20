@@ -3,6 +3,7 @@ import { FaUser, FaGamepad, FaStar } from "react-icons/fa";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 
+
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -144,18 +145,21 @@ const Dashboard = () => {
             </ul>
           </div>
 
-          {/* Favorites */}
-          <div className="bg-[#1a2138] p-5 rounded-xl shadow-lg md:col-span-3">
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <FaStar /> Favorite Games
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {["Car Racing", "Shooting Arena", "Puzzle Quest", "Runner PRO"].map((game) => (
-                <div key={game} className="bg-[#11172d] p-3 rounded-lg text-center hover:bg-[#18203a] cursor-pointer transition">
-                  {game}
+          {/* Favorite Game */}
+          <div className="bg-[#1a2138] p-5 rounded-xl shadow-lg">
+            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">⭐ Favorite Game</h3>
+
+            {stats?.favorite_game ? (
+              <div className="bg-[#11172d] p-4 rounded-lg flex items-center justify-between">
+                <div>
+                  <p className="text-xl font-bold text-yellow-400">{stats.favorite_game}</p>
+                  <p className="text-sm text-gray-400">Your chosen favorite</p>
                 </div>
-              ))}
-            </div>
+                <span className="text-3xl">🎮</span>
+              </div>
+            ) : (
+              <p className="text-gray-400 text-sm">You haven’t selected a favorite game yet.</p>
+            )}
           </div>
         </div>
       </div>

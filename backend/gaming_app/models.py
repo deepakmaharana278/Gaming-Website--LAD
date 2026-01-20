@@ -7,6 +7,12 @@ class User(models.Model):
     email = models.EmailField()
     photo = models.TextField(blank=True)
     joined_at = models.DateTimeField(auto_now_add=True)
+
+    favorite_game = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
     
     def __str__(self):
         return self.name

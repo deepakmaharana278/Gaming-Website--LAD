@@ -172,6 +172,31 @@ def dashboard_stats(request, uid):
             "last_game": last_game.game_name if last_game else None,
             "level": level,
             "recent_games": recent_games,  
-            "games_per_level": GAMES_PER_LEVEL
+            "games_per_level": GAMES_PER_LEVEL,
+            "favorite_game": user.favorite_game,
         }
+    })
+
+
+@csrf_exempt
+def set_favorite_game(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST only"}, status=405)
+
+    data = json.loads(request.body)
+    user = User.objects.get(firebase_uid=data["uid"])
+
+    # If game_name is empty or null → remove favorite
+    game_name = data.get("game_name")
+
+    if game_name:
+        user.favorite_game = game_name
+    else:
+        user.favorite_game = None
+
+    user.save()
+
+    return JsonResponse({
+        "status": "ok",
+        "favorite_game": user.favorite_game
     })
