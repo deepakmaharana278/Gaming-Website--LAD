@@ -4,6 +4,8 @@ import Layout from "../components/Layout";
 import { saveGamePlay } from "../utils/saveGamePlay";
 
 export default function GamePlayer() {
+  const startTimeRef = useRef(Date.now());
+  const intervalRef = useRef(null);
   const { id } = useParams();
   const [game, setGame] = useState(null);
   const iframeRef = useRef(null);
@@ -32,12 +34,22 @@ export default function GamePlayer() {
 
   useEffect(() => {
     const uid = localStorage.getItem("uid");
+    if (!uid || !game) return;
+
+    intervalRef.current = setInterval(() => {
+      const now = Date.now();
+      const playDuration = Math.floor((now - startTimeRef.current) / 1000);
+
+      //  Count game as soon as 2 minutes completed
+      if (playDuration >= 120 && !hasSavedRef.current) {
+        saveGamePlay(uid, game.title, playDuration);
+        hasSavedRef.current = true;
+        clearInterval(intervalRef.current);
+      }
+    }, 5000); // check every 5 seconds
 
     return () => {
-      if (!hasSavedRef.current && uid && game) {
-        saveGamePlay(uid, game.title);
-        hasSavedRef.current = true;
-      }
+      clearInterval(intervalRef.current);
     };
   }, [game]);
 

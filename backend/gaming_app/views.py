@@ -117,35 +117,60 @@ def save_game_play(request):
         return JsonResponse({"error": "POST only"}, status=405)
 
     data = json.loads(request.body)
-
     user = User.objects.get(firebase_uid=data["uid"])
+
+    play_duration = int(data.get("play_duration", 0))
+
+    # Do not save if less than 2 minutes
+    if play_duration < 120:
+        return JsonResponse({
+            "status": "ignored",
+            "reason": "Play time less than 2 minutes"
+        })
 
     GamePlay.objects.create(
         user=user,
-        game_name=data["game_name"]
+        game_name=data["game_name"],
+        play_duration=play_duration
     )
 
     return JsonResponse({"status": "saved"})
+
+def calculate_level_and_progress(total_games):
+    level = 0
+    games_needed = 5
+
+    while total_games >= games_needed:
+        total_games -= games_needed
+        level += 1
+        games_needed = (level + 1) * games_needed
+
+    return {
+        "level": level,
+        "current_level_games": total_games,
+        "games_needed": games_needed
+    }
+
 
 
 # Dashboard stats
 def dashboard_stats(request, uid):
     user = User.objects.get(firebase_uid=uid)
 
-    # Total games played (all time)
-    total_games = GamePlay.objects.filter(user=user).count()
+    total_games = GamePlay.objects.filter(
+        user=user,
+        play_duration__gte=120
+    ).count()
 
-    # Most played game
     most_played = (
         GamePlay.objects
-        .filter(user=user)
+        .filter(user=user, play_duration__gte=120)
         .values("game_name")
         .annotate(count=Count("id"))
         .order_by("-count")
         .first()
     )
 
-    # Last game played
     last_game = (
         GamePlay.objects
         .filter(user=user)
@@ -153,16 +178,14 @@ def dashboard_stats(request, uid):
         .first()
     )
 
-    # Level logic (last 30 days)
     last_30_days = now() - timedelta(days=30)
     recent_games = GamePlay.objects.filter(
         user=user,
-        played_at__gte=last_30_days
+        played_at__gte=last_30_days,
+        play_duration__gte=120
     ).count()
 
-
-    GAMES_PER_LEVEL = 5
-    level = (recent_games // GAMES_PER_LEVEL) + 1
+    level_data = calculate_level_and_progress(recent_games)
 
     return JsonResponse({
         "status": "ok",
@@ -170,12 +193,16 @@ def dashboard_stats(request, uid):
             "total_games": total_games,
             "most_played": most_played["game_name"] if most_played else None,
             "last_game": last_game.game_name if last_game else None,
-            "level": level,
-            "recent_games": recent_games,  
-            "games_per_level": GAMES_PER_LEVEL,
+
+            "level": level_data["level"],
+            "current_level_games": level_data["current_level_games"],
+            "games_needed": level_data["games_needed"],
+
+            "recent_games": recent_games,
             "favorite_game": user.favorite_game,
         }
     })
+
 
 
 @csrf_exempt

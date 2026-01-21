@@ -1,4 +1,4 @@
-export const saveGamePlay = async (uid, gameName) => {
+export const saveGamePlay = async (uid, gameName, playDuration) => {
   await fetch(`${import.meta.env.VITE_API_URL}/api/save-game-play/`, {
     method: "POST",
     headers: {
@@ -7,6 +7,7 @@ export const saveGamePlay = async (uid, gameName) => {
     body: JSON.stringify({
       uid: uid,
       game_name: gameName,
+      play_duration: playDuration, 
     }),
   });
 };

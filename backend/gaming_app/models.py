@@ -21,6 +21,7 @@ class User(models.Model):
 class GamePlay(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     game_name = models.CharField(max_length=100)
+    play_duration = models.IntegerField(default=0) 
     played_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

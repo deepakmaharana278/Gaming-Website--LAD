@@ -3,7 +3,6 @@ import { FaUser, FaGamepad, FaStar } from "react-icons/fa";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 
-
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -49,7 +48,7 @@ const Dashboard = () => {
     fetchDashboardData();
   }, [navigate]);
 
-  const progressPercent = stats ? ((stats.recent_games % stats.games_per_level) / stats.games_per_level) * 100 : 0;
+  const progressPercent = stats && stats.games_needed > 0 ? Math.min(100, (stats.current_level_games / stats.games_needed) * 100) : 0;
 
   if (loading) {
     return (
@@ -92,9 +91,7 @@ const Dashboard = () => {
             <div className="mt-5">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-sm font-semibold text-white">Level {stats?.level}</span>
-                <span className="text-xs mt-2 text-gray-400">
-                  {stats?.recent_games % stats?.games_per_level} / {stats?.games_per_level}
-                </span>
+                <span className="text-xs mt-2 text-gray-400">{stats.games_needed > 0 ? `${stats.current_level_games} / ${stats.games_needed}` : "0 / 0"}</span>
               </div>
 
               <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
