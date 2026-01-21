@@ -6,7 +6,7 @@ urlpatterns = [
     path("save-user/", save_user),
     path("get-user/<str:uid>/", get_user),
     path("save-game-play/", save_game_play),
-    path("set-favorite-game/", set_favorite_game),
+    path("toggle-favorite-game/", toggle_favorite_game),
     path("dashboard-stats/<str:uid>/", dashboard_stats),
     path("health/",health_check),
 ]

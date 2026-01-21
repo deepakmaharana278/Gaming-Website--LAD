@@ -186,6 +186,17 @@ def dashboard_stats(request, uid):
     ).count()
 
     level_data = calculate_level_and_progress(recent_games)
+    favorite_games = list(
+    FavoriteGame.objects.filter(user=user)
+    .values_list("game_name", flat=True)
+    )
+
+    # Get full game data from feed cache
+    games_feed = CACHE.get("data") or []
+    favorite_game_cards = [
+        g for g in games_feed if g["title"] in favorite_games
+    ]
+    
 
     return JsonResponse({
         "status": "ok",
@@ -197,33 +208,37 @@ def dashboard_stats(request, uid):
             "level": level_data["level"],
             "current_level_games": level_data["current_level_games"],
             "games_needed": level_data["games_needed"],
-
             "recent_games": recent_games,
-            "favorite_game": user.favorite_game,
+            "favorite_games": favorite_games,
+            "favorite_game_cards": favorite_game_cards,
         }
     })
 
 
-
 @csrf_exempt
-def set_favorite_game(request):
+def toggle_favorite_game(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST only"}, status=405)
 
     data = json.loads(request.body)
     user = User.objects.get(firebase_uid=data["uid"])
-
-    # If game_name is empty or null → remove favorite
     game_name = data.get("game_name")
 
-    if game_name:
-        user.favorite_game = game_name
+    if not game_name:
+        return JsonResponse({"error": "Game name required"}, status=400)
+
+
+    fav = FavoriteGame.objects.filter(
+        user=user,
+        game_name=game_name
+    )
+
+    if fav.exists():
+        fav.delete()
+        return JsonResponse({"status": "removed"})
     else:
-        user.favorite_game = None
-
-    user.save()
-
-    return JsonResponse({
-        "status": "ok",
-        "favorite_game": user.favorite_game
-    })
+        FavoriteGame.objects.create(
+            user=user,
+            game_name=game_name
+        )
+        return JsonResponse({"status": "added"})
