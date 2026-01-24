@@ -19,8 +19,10 @@ DEBUG = False
 ALLOWED_HOSTS = [
     "ladgames.online",
     "www.ladgames.online",
-    ".vercel.app"
+    ".vercel.app",
+    ".onrender.com"
 ]
+
 
 
 # Application definition
