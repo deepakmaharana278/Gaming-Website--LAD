@@ -10,7 +10,7 @@ const PrivacyPolicy = () => {
         title="Privacy Policy | LAD Games"
         description="Read the Privacy Policy of LAD Games to understand how we collect, use, and protect user information while providing free online games."
         keywords="privacy policy lad games, lad games privacy, online gaming privacy policy"
-        // url="https://ladgames.online/privacy-policy"
+        url="https://ladgames.online/privacy-policy"
       />
       <section className="bg-linear-to-bl from-[#240750] via-[#577B8D] to-[#240750] min-h-screen px-4 py-16 text-white">
         <div className="max-w-4xl mx-auto bg-white/10  backdrop-blur-xl border border-white/20  rounded-2xl p-6 sm:p-8 shadow-xl">

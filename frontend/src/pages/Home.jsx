@@ -38,7 +38,7 @@ const Home = () => {
         title="LAD Games | Play Free Online Games"
         description="Play free online games on LAD Games. No downloads, no signup required."
         keywords="free online games, browser games, lad games"
-        // url="https://ladgames.online/"
+        url="https://ladgames.online/"
       />
       {/* Slider */}
       <HomeSlider />

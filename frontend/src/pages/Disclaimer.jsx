@@ -9,7 +9,7 @@ const Disclaimer = () => {
         title="Disclaimer | LAD Games"
         description="Read the Disclaimer of LAD Games regarding game content, third-party links, and limitations of liability while using our free online gaming platform."
         keywords="disclaimer lad games, lad games disclaimer, online gaming disclaimer"
-        // url="https://ladgames.online/disclaimer"
+        url="https://ladgames.online/disclaimer"
       />
       <section className="bg-linear-to-bl from-[#240750] via-[#577B8D] to-[#240750] min-h-screen px-4 py-16 text-white">
         <div className="max-w-4xl mx-auto bg-white/10  backdrop-blur-xl border border-white/20  rounded-2xl p-6 sm:p-8 shadow-xl">

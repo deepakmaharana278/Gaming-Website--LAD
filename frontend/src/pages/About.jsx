@@ -10,7 +10,7 @@ const About = () => {
         title="About LAD Games | Free Online Gaming Platform"
         description="Learn about LAD Games – a free online gaming platform where you can play instant browser games without downloads or signup."
         keywords="about lad games, free online games platform, browser gaming"
-        // url="https://ladgames.online/about"
+        url="https://ladgames.online/about"
       />
        <div className=" bg-linear-to-br from-[#240750] via-[#344C64]  to-[#240750] text-white min-h-screen">
       {/* Hero Section */}

@@ -122,20 +122,20 @@ export default function Games() {
   // SEO LOGIC
   let seoTitle = "All Games | Play Free Online Games on LAD Games";
   let seoDescription = "Browse all free online games on LAD Games. Play action, puzzle, racing, arcade, and more browser games instantly without downloads.";
-  // let seoUrl = "https://ladgames.online/all-games";
+  let seoUrl = "https://ladgames.online/all-games";
 
   if (category && category !== "All") {
     const formattedCategory = category.replace(/-/g, " ");
     seoTitle = `${formattedCategory} Games | LAD Games`;
     seoDescription = `Play free ${formattedCategory} games online on LAD Games. No downloads required.`;
-    // seoUrl = `https://ladgames.online/all-games?category=${category}`;
+    seoUrl = `https://ladgames.online/all-games?category=${category}`;
   }
 
   if (search.trim()) {
     seoTitle = `Search Results for "${search}" | LAD Games`;
     seoDescription = `Search results for "${search}" games on LAD Games. Play free online games instantly.`;
-    // seoUrl = `https://ladgames.online/all-games?search=${encodeURIComponent(search)
-    //   } `;
+    seoUrl = `https://ladgames.online/all-games?search=${encodeURIComponent(search)
+      } `;
   }
 
   // Loader

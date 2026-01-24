@@ -35,7 +35,7 @@ const Contact = () => {
         title="Contact LAD Games | Get in Touch"
         description="Contact LAD Games for support, feedback, or business inquiries. We’re happy to hear from you."
         keywords="contact lad games, lad games support, gaming website contact"
-        // url="https://ladgames.online/contact"
+        url="https://ladgames.online/contact"
       />
       <ToastContainer position="top-center" autoClose={3000} />
       <section

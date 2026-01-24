@@ -38,7 +38,7 @@ const Register = () => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = res.user;
     localStorage.setItem("uid", firebaseUser.uid);
-    // 🔥 SAVE USER TO DJANGO
+    // SAVE USER TO DJANGO
     await saveUserToBackend(firebaseUser, username);
 
     navigate("/login");
@@ -55,7 +55,7 @@ const Register = () => {
         title="Sign Up | LAD Games"
         description="Create a free LAD Games account to save favorites, track progress, and enjoy a personalized gaming experience."
         keywords="lad games signup, create gaming account, free gaming account"
-        // url="https://ladgames.online/signup"
+        url="https://ladgames.online/signup"
       />
       <div
         className="min-h-screen flex items-center justify-center

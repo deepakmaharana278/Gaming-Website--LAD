@@ -28,7 +28,7 @@ const Login = () => {
     const firebaseUser = res.user;
     localStorage.setItem("uid", firebaseUser.uid);
 
-    // 🔥 SYNC USER WITH BACKEND
+    // SYNC USER WITH BACKEND
     await saveUserToBackend(firebaseUser);
 
     navigate("/all-games",);
@@ -45,7 +45,7 @@ const Login = () => {
         title="Login | LAD Games"
         description="Login to LAD Games to access your account, track progress, and enjoy personalized gaming features."
         keywords="lad games login, login lad games, gaming account login"
-        // url="https://ladgames.online/login"
+        url="https://ladgames.online/login"
       />
       <div
         className="min-h-screen flex items-center justify-center px-4 

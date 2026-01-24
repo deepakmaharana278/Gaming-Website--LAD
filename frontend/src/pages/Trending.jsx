@@ -11,7 +11,7 @@ export default function Trending() {
     fetch(`${import.meta.env.VITE_API_URL}/api/games/`)
       .then((res) => res.json())
       .then((data) => {
-        // 🔥 TRENDING LOGIC
+        //  TRENDING LOGIC
         const trendingGames = [...data]
           .sort((a, b) => {
             // If backend has views/plays

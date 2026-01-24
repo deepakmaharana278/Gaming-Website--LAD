@@ -3,6 +3,7 @@ import { FaUser, FaGamepad, FaTimes } from "react-icons/fa";
 import Layout from "../components/Layout";
 import { useNavigate, Link } from "react-router-dom";
 import { toggleFavoriteGame } from "../utils/favoriteGame";
+import SEO from "../components/SEO";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -83,6 +84,12 @@ const Dashboard = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Dashboard | LAD Games"
+        description="Access your personalized gaming dashboard on LAD Games. View your profile, recently played games, rewards, achievements, and game statistics in one place."
+        keywords="gaming dashboard, lad games dashboard, player profile, online gaming stats, game achievements"
+        url="https://ladgames.online/dashboard"
+      />
       <div className="min-h-screen bg-linear-to-br from-[#050816] via-[#0b1025] to-[#020617] text-white p-6 md:p-10">
         {/* Header */}
         <div className="flex justify-between items-center mb-10">

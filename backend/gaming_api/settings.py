@@ -16,7 +16,11 @@ SECRET_KEY = 'django-insecure-t#mtd232_1z(u=$_i5lqw$imq!1o^s*lc*nx1ls)a(o%s2139h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    "ladgames.online",
+    "www.ladgames.online",
+    ".vercel.app"
+]
 
 
 # Application definition
@@ -110,9 +114,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOWED_ORIGINS = [
     "https://gaming-website-lad.vercel.app",
+    "https://ladgames.online",
+    "https://www.ladgames.online"
 ]
 
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    "https://ladgames.online",
+    "https://www.ladgames.online",
+    "https://gaming-website-lad.vercel.app"
+]

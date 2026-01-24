@@ -9,7 +9,7 @@ const TermsConditions = () => {
         title="Terms and Conditions | LAD Games"
         description="Read the Terms and Conditions of LAD Games to understand the rules, responsibilities, and guidelines for using our free online gaming platform."
         keywords="terms and conditions lad games, lad games terms, online gaming terms"
-        // url="https://ladgames.online/terms"
+        url="https://ladgames.online/terms"
       />
       <section className="bg-linear-to-bl from-[#240750] via-[#577B8D] to-[#240750] min-h-screen px-4 py-16 text-white">
         <section className="max-w-4xl mx-auto bg-white/10  backdrop-blur-xl border border-white/20  rounded-2xl p-6 sm:p-8 shadow-xl">
