@@ -1,12 +1,16 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/sitemap.xml",
-      "destination": "https://gaming-website-lad.onrender.com/api/sitemap.xml"
+      "src": "^/sitemap.xml$",
+      "dest": "https://gaming-website-lad.onrender.com/api/sitemap.xml/"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "^/api/(.*)",
+      "status": 404
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
