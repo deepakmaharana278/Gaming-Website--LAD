@@ -9,4 +9,5 @@ urlpatterns = [
     path("toggle-favorite-game/", toggle_favorite_game),
     path("dashboard-stats/<str:uid>/", dashboard_stats),
     path("health/",health_check),
+    path("sitemap.xml/",sitemap_view),
 ]

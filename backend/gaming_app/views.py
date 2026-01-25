@@ -9,6 +9,10 @@ from django.http import JsonResponse
 from datetime import timedelta
 from django.db.models import Count
 from django.utils.timezone import now
+from django.http import HttpResponse
+from django.core.cache import cache
+from xml.sax.saxutils import escape
+from .utils import fetch_games
 
 
 CACHE = {
@@ -242,3 +246,50 @@ def toggle_favorite_game(request):
             game_name=game_name
         )
         return JsonResponse({"status": "added"})
+
+
+# Sitemap 
+SITE_URL = "https://ladgames.online"
+
+def sitemap_view(request):
+    # 🔥 Cache sitemap for speed (6 hours)
+    cached_sitemap = cache.get("sitemap_xml")
+    if cached_sitemap:
+        return HttpResponse(cached_sitemap, content_type="application/xml")
+
+    games = fetch_games()
+
+    static_pages = [
+        "",
+        "games",
+        "all-games",
+        "trending",
+        "about",
+        "contact",
+        "privacy-policy",
+        "terms",
+        "disclaimer",
+    ]
+
+    urls = []
+
+    # Static pages
+    for page in static_pages:
+        url = f"{SITE_URL}/{page}".rstrip("/")
+        urls.append(f"<url><loc>{escape(url)}</loc></url>")
+
+    # Game pages
+    for game in games:
+        url = f"{SITE_URL}/game/{game['slug']}"
+        urls.append(f"<url><loc>{escape(url)}</loc></url>")
+
+    sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {''.join(urls)}
+    </urlset>
+    """
+
+    # Cache final XML
+    cache.set("sitemap_xml", sitemap_xml, 60 * 60 * 6)
+
+    return HttpResponse(sitemap_xml, content_type="application/xml")
