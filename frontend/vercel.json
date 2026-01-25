@@ -1,15 +1,5 @@
-{
+{ 
   "rewrites": [
-    {
-      "handle": "filesystem"
-    },
-    {
-      "source": "/sitemap.xml",
-      "destination": "https://gaming-website-lad.onrender.com/api/sitemap.xml"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
