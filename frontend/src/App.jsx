@@ -26,7 +26,7 @@ function App() {
       <Route path="/terms" element={<TermsConditions />} />
       <Route path="/disclaimer" element={<Disclaimer />} />
       <Route path="/games" element={<Games />} />
-      <Route path="/game/:id" element={<GamePlayer />} />
+      <Route path="/game/:slug" element={<GamePlayer />} />
       <Route path="/all-games" element={<Games />} />
       <Route path="/trending" element={<Trending />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />

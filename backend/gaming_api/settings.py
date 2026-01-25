@@ -14,15 +14,16 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = 'django-insecure-t#mtd232_1z(u=$_i5lqw$imq!1o^s*lc*nx1ls)a(o%s2139h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
 ALLOWED_HOSTS = [
     "ladgames.online",
     "www.ladgames.online",
     ".vercel.app",
     ".onrender.com",
-    "127.0.0.1",
-    "localhost",
+    # "127.0.0.1",
+    # "localhost",
 ]
 
 
@@ -128,6 +129,11 @@ CORS_ALLOWED_ORIGINS = [
     "https://ladgames.online",
     "https://www.ladgames.online"
 ]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+#     "http://127.0.0.1:5173",
+# ]
+
 
 CSRF_TRUSTED_ORIGINS = [
     "https://ladgames.online",

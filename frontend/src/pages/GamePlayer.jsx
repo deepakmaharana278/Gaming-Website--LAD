@@ -6,7 +6,7 @@ import { saveGamePlay } from "../utils/saveGamePlay";
 export default function GamePlayer() {
   const startTimeRef = useRef(Date.now());
   const intervalRef = useRef(null);
-  const { id } = useParams();
+  const { slug } = useParams();
   const [game, setGame] = useState(null);
   const iframeRef = useRef(null);
   const hasSavedRef = useRef(false);
@@ -14,13 +14,24 @@ export default function GamePlayer() {
 
   // Fetch game
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/games/`)
-      .then((res) => res.json())
-      .then((data) => {
-        const found = data.find((g) => g.id === decodeURIComponent(id));
-        setGame(found);
-      });
-  }, [id]);
+  fetch(`${import.meta.env.VITE_API_URL}/api/games/`)
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log("URL slug",slug)
+      // console.log("first backend slug",data[0]?.slug)
+      const decodedSlug = decodeURIComponent(slug);
+
+      const found = data.find(
+        (g) => g.slug === decodedSlug
+      );
+
+      setGame(found || null);
+    })
+    .catch((err) => {
+      console.error("Failed to fetch game:", err);
+      setGame(null);
+    });
+}, [slug]);
 
   // Fullscreen detection
   useEffect(() => {
@@ -85,7 +96,7 @@ export default function GamePlayer() {
       <div className="min-h-screen bg-linear-to-b from-gray-900 via-black to-gray-900 p-4 md:p-6">
         {/* Header */}
         <div className="max-w-6xl mx-auto mb-4">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white">{game.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-white">{game?.title}</h1>
           <p className="text-gray-400 mt-1">Play instantly • No download</p>
         </div>
 
@@ -106,14 +117,14 @@ export default function GamePlayer() {
 
           {/* Iframe */}
           <div className="w-full aspect-video">
-            <iframe ref={iframeRef} src={game.url} className="w-full h-full" allowFullScreen />
+            <iframe ref={iframeRef} src={game?.url} className="w-full h-full" allowFullScreen />
           </div>
         </div>
 
         {/* Description */}
         <div className="max-w-6xl mx-auto mt-6 bg-gray-900/60 rounded-xl p-5 border border-gray-800">
           <h2 className="text-xl font-semibold text-white mb-2">About this game</h2>
-          <p className="text-gray-300">{game.description}</p>
+          <p className="text-gray-300">{game?.description}</p>
         </div>
       </div>
     </Layout>

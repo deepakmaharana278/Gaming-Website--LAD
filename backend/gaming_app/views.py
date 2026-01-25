@@ -12,7 +12,7 @@ from django.utils.timezone import now
 from django.http import HttpResponse
 from django.core.cache import cache
 from xml.sax.saxutils import escape
-from .utils import fetch_games
+from .utils import fetch_games, slugify
 
 
 CACHE = {
@@ -62,6 +62,7 @@ def gamemonetize_games(request):
         games.append({
             "id": entry.id if "id" in entry else "",
             "title": entry.title,
+            "slug": slugify(entry.title),
             "description": entry.description,
             "instructions": entry.get("instructions", ""),
             "category": entry.get("category", ""),

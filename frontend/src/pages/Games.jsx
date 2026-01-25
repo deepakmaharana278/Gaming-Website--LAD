@@ -195,7 +195,7 @@ export default function Games() {
                 )}
 
                 {/* Clickable Game Card */}
-                <Link to={`/game/${encodeURIComponent(game.id)}`}>
+                <Link to={`/game/${encodeURIComponent(game.slug)}`}>
                   {/* Thumbnail */}
                   <div className="aspect-4/3 bg-black overflow-hidden relative">
                     <img
