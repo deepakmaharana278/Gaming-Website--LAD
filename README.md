@@ -44,4 +44,21 @@
 ---
 
 ## 📁 Project Structure (Example)
-
+```
+LAD-Games/
+├── frontend/ # React application
+│ ├── src/
+│ │ ├── components/
+│ │ ├── pages/
+│ │ ├── firebase.js # Firebase config
+│ │ └── App.js
+│ └── package.json
+│
+├── backend/ # Django backend
+│ ├── ladgames/
+│ ├── api/
+│ ├── manage.py
+│ └── requirements.txt
+│
+└── README.md
+```
